@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+   <import resource="classpath:datasource-config.xml"/>    
+
+<beans profile="basic">
+	<bean id="hibernateJpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean"  p:persistenceUnitName="unitPU"  p:jpaDialect-ref="jpaDialect"
+	 p:jpaVendorAdapter-ref="hibernateJpaAdapter"/>
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory" p:jpaDialect-ref="jpaDialect"/>     
+	<jpa:repositories base-package="pl.java.borowiec.dao" /> 
+</beans>
+
+
+<beans profile="hibernate">  
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+     p:dataSource-ref="dataSource" 
+     p:annotatedPackages="pl.java.borowiec"
+     p:packagesToScan="pl.java.borowiec">  
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.connection.charSet">UTF-8</prop>
+                <prop key="use_sql_comments">true</prop>
+                <!-- <prop key="hibernate.connection.zeroDateTimeBehavior">convertToNull</prop> -->
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop> 
+		        <prop key="hibernate.cache.use_second_level_cache">true</prop>    
+            </props>        
+        </property>
+    </bean>     
+        <bean id="transactionManager"  class="org.springframework.orm.hibernate4.HibernateTransactionManager" p:sessionFactory-ref="sessionFactory"/>
+        <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+        <context:component-scan base-package="pl.java.borowiec.common.dao.hibernate"/>
+ </beans>
+
+<beans profile="jpa">
+    <bean id="hibernateJpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="packagesToScan" value="pl.java.borowiec" />
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+					<property name="database" value="HSQL" />
+					<property name="generateDdl" value="true" />
+				</bean>
+			</property>
+		</bean>
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory" p:jpaDialect-ref="jpaDialect"/>     
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/> 
+    <context:component-scan base-package="pl.java.borowiec.common.dao.jpa"/>
+</beans>
+   
+ <beans profile="spring-data">
+   	<jpa:repositories base-package="pl.java.borowiec.dao" />
+    <context:component-scan base-package="pl.java.borowiec.dao"/>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory"/>
+	<bean id="hibernateJpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" /> 
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean"  p:persistenceUnitName="unitPU"  p:jpaDialect-ref="jpaDialect"
+	 p:jpaVendorAdapter-ref="hibernateJpaAdapter"/>
+		<!-- <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="packagesToScan" value="pl.java.borowiec" />
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:databasePlatform="org.hibernate.dialect.MySQL5Dialect"
+				p:database="MYSQL" p:generateDdl="true" p:showSql="true"/>
+			</property>
+		</bean> -->
+		<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+</beans>   
+    
+    
+ <beans profile="spring-data-test">
+   		<jpa:repositories base-package="pl.java.borowiec.dao" />
+       <context:component-scan base-package="pl.java.borowiec.dao"/>
+		 <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory"/>
+		<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="packagesToScan" value="pl.java.borowiec" />
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+					<property name="database" value="HSQL" />
+					<property name="generateDdl" value="true" />
+				</bean>
+			</property>
+		</bean>
+		<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+		<jdbc:embedded-database id="dataSource" type="HSQL" />
+</beans> 
+
+
+<beans profile="jdbc">
+   <import resource="classpath:datasource-config.xml"/>  
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" p:dataSource-ref="dataSource"/>
+        <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+        <bean id="namedParameterJdbcTemplate"
+              class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+        <context:component-scan base-package="pl.java.borowiec.jdbc.dao"/>
+ </beans>
+
+</beans>

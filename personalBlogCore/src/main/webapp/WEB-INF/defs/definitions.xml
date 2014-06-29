@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+<definition name="loginForm" template="/WEB-INF/views/loginForm.jsp"/>
+<definition name="logout" template="/WEB-INF/views/logout.jsp"/>
+<definition name="404" template="/WEB-INF/views/errors/404.jsp"/>
+<definition name="403" template="/WEB-INF/views/errors/403.jsp"/>
+<definition name="500" template="/WEB-INF/views/errors/500.jsp"/>
+<definition name="securityException" template="/WEB-INF/views/errors/403.jsp"/> 
+<definition name="accessDenied" template="/WEB-INF/views/errors/accessDenied"/>
+
+<definition name="base" template="/WEB-INF/views/layout/layout.jsp">
+		<put-attribute name="title" type="string" value="default title" />
+		<put-attribute name="header" type="template" value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="footer" type="template" value="/WEB-INF/views/layout/footer.jsp" />
+</definition>
+
+
+<definition name="uploadView"   extends="base"  template="/WEB-INF/views/upload/upload.jsp"/>
+
+<definition name="word" extends="base" >
+        <put-attribute name="title" value="word" type="string" />
+		<put-attribute name="body" type="template" value="/WEB-INF/views/word/wordList.jsp" />
+</definition>
+
+<definition name="welcome" extends="base">
+		<put-attribute name="title" value="welcome" type="string" />
+		<put-attribute name="body" type="template" value="/WEB-INF/views/welcome.jsp" />
+</definition>
+
+</tiles-definitions>

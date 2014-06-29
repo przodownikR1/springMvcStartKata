@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+<mvc:annotation-driven  validator="validator"  conversion-service="conversionService">
+ 
+
+</mvc:annotation-driven>
+	
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxUploadSize="2097152" />
+      
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"  p:validationMessageSource-ref="messageSource"/>
+  
+  <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+   <property name="converters" ref="convertersList"/>
+  <!--  <property name="formatterRegistrars" ref="formmaterSet"/> -->
+</bean>   
+
+<util:properties id="applicationProps" location="classpath:application.properties"/>
+  
+    <util:list id="convertersList">
+				<bean class="pl.java.borowiec.converter.String2SexConverter"/>
+				<bean class="pl.java.borowiec.converter.Sex2StringConverter"/>
+    </util:list>
+
+   <context:component-scan base-package="pl.java.borowiec.controller" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan> 
+
+	<mvc:view-controller path="/" view-name="/welcome/welcome"/>
+	
+	<mvc:view-controller path="/loginForm" view-name="loginForm"/>
+  	<mvc:view-controller path="/access-denied/" view-name="errors/access-denied"/>
+  	<mvc:view-controller path="/sessionAuthError" view-name="errors/sessionAuthError"/>
+	<mvc:resources location="/images/" mapping="/images/**" cache-period="300" />
+	<mvc:resources location="/js/" mapping="/js/**" cache-period="300" />
+	<mvc:resources location="/css/" mapping="/css/**" cache-period="300" />
+    <mvc:resources location="/themes/" mapping="/themes/**"/>
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale" />
+	 	<bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor" p:entityManagerFactory-ref="entityManagerFactory" />
+		<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" p:paramName="theme"/>
+		<!-- <bean class="pl.java.borowiec.interceptor.PerformanceHandler" /> -->
+	</mvc:interceptors>
+
+   
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+
+	
+	<bean id="viewResolver"  class="org.springframework.web.servlet.view.InternalResourceViewResolver"   p:prefix="/WEB-INF/views/" p:suffix=".jsp" />
+	<bean id="beanResolverBean" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="2"/>
+	
+	
+	  <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer" 
+        p:preparerFactoryClass="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"
+         p:definitions-ref="titleDefinitions"/>
+         
+	 <util:list id="titleDefinitions">
+    	<value>/WEB-INF/defs/definitions.xml</value>
+     </util:list>  
+    	
+    <!-- if add this line not working :  p:prefix="/WEB-INF/jsp/"  p:suffix=".jsp" " -->
+    <bean id="viewResolverTitle" class="org.springframework.web.servlet.view.UrlBasedViewResolver" 
+     p:order="1"  p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView"/>
+	
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="1" p:defaultContentType="application/json" p:mediaTypes-ref="mediaMapTypes" p:favorPathExtension="false" p:favorParameter="true"
+		p:viewResolvers-ref="resolverViews" />
+
+	<util:map id="mediaMapTypes">
+	    <entry key="json" value="application/json"/>
+	    <entry key="xml" value="application/xml"/> 
+		<entry key="html" value="text/html" />
+		
+	</util:map>
+
+	<util:list id="resolverViews">
+		<ref bean="viewResolverTitle"/>
+	</util:list>
+
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:order="1" 
+	   p:exceptionMappings-ref="defaultMappingException" p:defaultErrorView="errors/error"/>
+
+
+<util:properties id="defaultMappingException">
+                 <prop key="javax.servlet.jsp.JspTagException">/errors/tagException</prop>
+	  			 <prop key="org.springframework.web.servlet.PageNotFound">/errors/pageNotFound</prop>
+      			  <prop key="org.springframework.dao.DataAccessException">/errors/dataAccessFailure</prop>
+        	      <prop key="org.springframework.transaction.TransactionException">/errors/dataAccessFailure</prop>
+        	      <prop key="java.lang.IllegalArgumentException">/errors/illegalArgException</prop>
+        	      <prop key="java.lang.Exception">/errors/uncaughtException</prop>
+	</util:properties>
+
+</beans>

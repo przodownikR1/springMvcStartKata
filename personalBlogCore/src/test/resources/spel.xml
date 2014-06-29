@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	 xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+        
+         <bean id="str" class="java.lang.String">
+          <constructor-arg value="slawek"/>
+         </bean> 
+ 
+        <util:list id="ads" value-type="pl.java.borowiec.ad.Ad" list-class="java.util.LinkedList">     
+          <bean class="pl.java.borowiec.ad.Ad" c:name="Bosh" c:content="washMachine" c:price="900" c:minTime="30"/>
+          <bean class="pl.java.borowiec.ad.Ad" c:name="Sony" c:content="TV" c:price="1900" c:minTime="10"/>
+          <bean class="pl.java.borowiec.ad.Ad" c:name="Toshiba" c:content="dvd" c:price="300" c:minTime="23"/>
+          <bean class="pl.java.borowiec.ad.Ad" c:name="SAMSUNG" c:content="mobilePhone" c:price="200" c:minTime="60"/>
+          <bean class="pl.java.borowiec.ad.Ad" c:name="YAMAHA" c:content="R1" c:price="63900" c:minTime="15"/>
+        </util:list>
+        
+        
+        
+        <context:property-placeholder  system-properties-mode="ENVIRONMENT" location="tmp:/test.properties" 
+        ignore-resource-not-found="true" ignore-unresolvable="false" properties-ref="default"/>
+        
+        <util:properties id="default">
+          <prop key="slawek">borowiec</prop>
+        </util:properties>
+        
+        
+        <util:list id="automakers">
+			<value>Acura</value>
+			<value>Audi</value>
+			<value>BMW</value>
+			<value>Buick</value>
+			<value>Lexus</value>
+			<value>Mazda</value>
+			<value>Mercedes-Benz USA</value>
+			<value>Mitsubishi</value>
+			<value>Suzuki</value>
+			<value>Toyota</value>
+			<value>Volvo</value>
+	</util:list>
+             
+ </beans>

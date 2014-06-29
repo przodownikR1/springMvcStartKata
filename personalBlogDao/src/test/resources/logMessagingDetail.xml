@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <appender name="proof"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/dao.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${user.home}/logs/dao.%i.log.zip
+            </fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>3</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>5MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%date %level|%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- this app -->
+    <logger name="pl.java.borowiec.dao" level="info">
+        <appender-ref ref="proof"/>
+    </logger>
+
+    <!-- Spring -->
+    <logger name="org.springframework" level="info">
+        <appender-ref ref="proof"/>
+    </logger>
+    <logger name="org.hibernate" level="info">
+        <appender-ref ref="proof"/>
+    </logger>
+</included>

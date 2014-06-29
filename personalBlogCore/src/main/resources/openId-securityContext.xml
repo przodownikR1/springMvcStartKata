@@ -1,0 +1,112 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:security="http://www.springframework.org/schema/security" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+		
+		
+         <!--  <security:debug/> -->
+		  <security:global-method-security  pre-post-annotations="enabled" />
+		
+		 
+				  <http pattern="/css/*" security="none"/>
+		  <http pattern="/js/*" security="none"/>
+		  <http pattern="/images/*" security="none"/>
+     
+  		<http auto-config="true"    use-expressions="true" >
+  		    <intercept-url pattern="/" access="permitAll"/>
+        	<intercept-url pattern="/loginForm" access="permitAll"/>
+			<intercept-url pattern="/logout" access="permitAll"/>
+			<intercept-url pattern="/404*" access="permitAll"/>
+			<intercept-url pattern="/403*" access="permitAll"/>
+			<intercept-url pattern="/500*" access="permitAll"/>
+			<intercept-url pattern="/tests/*" access="permitAll"/>
+			<intercept-url pattern="/index" access="permitAll"/>
+			<intercept-url pattern="/accessDenied" access="permitAll"/>
+			<intercept-url pattern="/registerUser/"  access="permitAll"/>
+		    <intercept-url pattern="/loginRemind"  access="permitAll"/>
+		    <intercept-url pattern="/passwordRemind"  access="permitAll"/>
+		    <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
+		    <intercept-url pattern="/**" access="isAuthenticated()" />
+
+		 
+		<security:access-denied-handler error-page="/denied"/>
+		
+        <security:session-management invalid-session-url="/loginForm" session-fixation-protection="migrateSession" session-authentication-error-url="/loginForm">
+            <security:concurrency-control  max-sessions="1" error-if-maximum-exceeded="true" expired-url="/loginForm?error=expired" />
+        </security:session-management>
+       
+		<security:logout invalidate-session="true"  delete-cookies="JSESSIONID"  logout-url="/logout"/>
+		
+		 <security:openid-login login-page="/loginOpenID" user-service-ref="registeringUserService" authentication-failure-url="/loginOpenID?login_error=true">
+            <security:attribute-exchange identifier-match="https://www.google.com/.*">
+                <security:openid-attribute name="email" type="http://axschema.org/contact/email" required="true" count="1"/>
+                <security:openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true" />
+                <security:openid-attribute name="lastname" type="http://axschema.org/namePerson/last" required="true" />
+            </security:attribute-exchange>
+            <security:attribute-exchange identifier-match=".*yahoo.com.*">
+                <security:openid-attribute name="email" type="http://axschema.org/contact/email" required="true"/>
+                <security:openid-attribute name="fullname" type="http://axschema.org/namePerson" required="true" />
+            </security:attribute-exchange>
+            <security:attribute-exchange identifier-match=".*myopenid.com.*">
+                <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
+                <security:openid-attribute name="fullname" type="http://schema.openid.net/namePerson" required="true" />
+            </security:attribute-exchange>
+        </security:openid-login>
+		
+	  </security:http>
+ <beans:bean id="registeringUserService" class="pl.java.borowiec.security.CustomUserDetailsService" />
+ 	
+ 	<beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource" p:userPropertyToUse="login"/>
+  	<beans:bean  class="org.springframework.security.access.vote.AffirmativeBased" id="unanimousBased"
+  	 p:allowIfAllAbstainDecisions="false" p:decisionVoters-ref="decisionVoters"/>
+ 
+ 		<util:list id="decisionVoters">
+ 				<beans:ref bean="roleVoter"/>
+ 				<beans:ref bean="authenticatedVoter"/>
+ 		</util:list>
+ 
+		<beans:bean class="org.springframework.security.access.vote.RoleVoter" id="roleVoter"/>
+		<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" id="authenticatedVoter"/>
+		<beans:bean id="authorizationListener" class="org.springframework.security.access.event.LoggerListener"/>
+		
+		
+  
+		  <beans:bean id="authenticationDao" class="org.springframework.security.core.userdetails.memory.InMemoryDaoImpl">
+  
+        	        <beans:property name="userMap">
+            	            <beans:value>
+                	                slawek=slawek,ROLE_USER
+                    	            admin=admin,ROLE_ADMIN    
+                        	        tomek=tomek,ROLE_USER
+                            	    aga=aga,ROLE_USER
+                        	</beans:value>
+                </beans:property>
+        </beans:bean>
+  
+     
+   <security:authentication-manager alias="authenticationManager">
+     <security:authentication-provider user-service-ref="authenticationDao">
+      <security:password-encoder hash="plaintext"/>
+      </security:authentication-provider>
+   </security:authentication-manager> 
+    
+   
+     <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
+   
+   <beans:bean id="userDetailsServiceWrapper"  class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper" p:userDetailsService-ref="authenticationDao" />
+    
+   <beans:bean id="preauthAuthProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider" 
+   p:preAuthenticatedUserDetailsService-ref="userDetailsServiceWrapper" />
+  
+    
+  
+
+</beans:beans>
+
+    

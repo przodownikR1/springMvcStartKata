@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	 xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+        
+         <bean id="str" class="java.lang.String">
+          <constructor-arg value="slawek"/>
+         </bean> 
+
+        <bean id="product" abstract="true" class="pl.java.borowiec.simple.code.Product" p:name="testProduct" p:price="10"/>
+        
+        
+
+		<bean id="springBook" class="pl.java.borowiec.simple.code.Book">
+			<property name="name" value="spring in action" />
+			<property name="price" value="23" />
+			<property name="pages" value="300"/>
+		</bean>
+		
+		<bean id="metallicaCd" class="pl.java.borowiec.simple.code.Cd">
+			<property name="name" value="Master of puppets" />
+			<property name="price" value="30" />
+			<property name="capacity" value="700" />
+		</bean>
+		
+		<bean id="cd" class="pl.java.borowiec.simple.code.Cd" parent="product">
+			
+			<property name="capacity" value="700" />
+		</bean>
+		
+		<bean id="book2" class="pl.java.borowiec.simple.code.DiscountFactoryBean">
+			<property name="product">
+			     <bean class="pl.java.borowiec.simple.code.Book" p:price="100"  p:name="mistery" p:pages="201"/>	
+			</property>
+          <property name="discount" value="0.1" />
+       </bean>
+		
+		<bean id="cdFactory" class="pl.java.borowiec.simple.code.CdFactory">
+ 				<property name="singleton" value="false" />
+ 				<property name="price" value="35"/>
+ 				<property name="name" value="sepultura"/>
+ 				<property name="capacity" value="650"/>
+	    </bean>
+		
+		<bean id="person" class="pl.java.borowiec.simple.code.Person">
+		   <property name="cd" ref="cdFactory"/>
+		</bean>
+		
+		
+		<bean id="cdStaticFactory" class="pl.java.borowiec.simple.code.CreateProduct"
+				factory-method="createProduct">
+				<constructor-arg value="music" />
+		</bean>
+		
+		<util:constant id="abcBook" static-field="pl.java.borowiec.simple.code.Product.BOOK_ONE" />
+		
+		
+
+</beans>

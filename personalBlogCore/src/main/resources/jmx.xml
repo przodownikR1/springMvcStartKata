@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+         <import resource="classpath:dao.xml" />
+	     <context:mbean-server  id="mbeanServer"  />
+        
+   
+   		<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" lazy-init="false" p:server-ref="mbeanServer"  p:autodetect="true"
+		         p:namingStrategy-ref="namingStrategy"  p:assembler-ref="assembler" /> 
+		          
+		   
+	 
+	 <bean id="attributeSource" class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource" />
+	 <bean id="assembler" class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
+		<property name="attributeSource" ref="attributeSource" />
+    </bean>
+	<bean id="namingStrategy" class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
+		<property name="attributeSource" ref="attributeSource" />
+	</bean>  
+    <bean id="hibernateSessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory" />
+
+   <!--  <bean id="hibernateStatistics" class="org.hibernate.jmx.StatisticsService" p:statisticsEnabled="true" p:sessionFactory-ref="hibernateSessionFactory"/> -->
+       
+	<util:map id="jmxBeans">
+	    <!--  <entry key="org.hibernate:name=statistics" value-ref="hibernateStatistics"/> -->
+	</util:map>	
+    
+
+</beans>
