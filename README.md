@@ -1,0 +1,4 @@
+springMvcStartKata
+==================
+
+only for training
