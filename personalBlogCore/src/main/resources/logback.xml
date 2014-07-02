@@ -19,7 +19,8 @@
  
   <logger name="pl.java.borowiec" level="info" />
   <logger name="org.springframework" level="info" />
- <logger name="org.hibernate" level="info" />
+  <logger name="org.hibernate.sql" level="info" />
+  <logger name="org.hibernate" level="warn" />
   <logger name="org.apache.activemq" level="info"/>
  
  

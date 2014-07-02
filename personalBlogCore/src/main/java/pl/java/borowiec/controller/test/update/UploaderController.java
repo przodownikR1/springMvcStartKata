@@ -30,7 +30,7 @@ import pl.java.borowiec.tools.PictureTool;
 @RequestMapping("/upload")
 public class UploaderController  {
 	static final Logger LOGGER = LoggerFactory.getLogger(UploaderController.class);
-	private final static String VIEW_NAME = "upload/upload";
+	private final static String VIEW_NAME = "uploadView";
 
 	@RequestMapping(value = "/file", method = RequestMethod.GET)
 	public ModelAndView getCreateForm(Model model) {

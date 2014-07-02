@@ -9,15 +9,11 @@ import javax.annotation.Resource;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import pl.java.borowiec.service.user.UserService;
-import pl.java.borowiec.user.User;
 
 
 /**
@@ -30,11 +26,11 @@ import pl.java.borowiec.user.User;
 @RequestMapping("/photo")
 public class ServerPhotoController {
 	private static final Logger logger = LoggerFactory.getLogger(ServerPhotoController.class);
+	
+	
 	@Resource
 	private org.springframework.core.io.Resource anonymousImg;
-	
-	@Autowired
-	private UserService userService;
+
 	
 
 	@RequestMapping(value = "/{login}", method = RequestMethod.GET,headers = "Accept=image/jpeg, image/jpg, image/png, image/gif")

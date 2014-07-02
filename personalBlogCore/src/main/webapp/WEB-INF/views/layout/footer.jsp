@@ -24,6 +24,8 @@
 </c:forEach>
 </ul>
 
+Rendering time : <c:out value="${handlingTime}"/>
+
 </body>
 
 </html>

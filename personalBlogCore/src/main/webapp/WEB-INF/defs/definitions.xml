@@ -22,6 +22,20 @@
 
 <definition name="uploadView"   extends="base"  template="/WEB-INF/views/upload/upload.jsp"/>
 
+
+<definition name="invoice" extends="base" >
+        <put-attribute name="title" value="show invoices" type="string" />
+		<put-attribute name="body" type="template" value="/WEB-INF/views/invoice/invoice.jsp" />
+</definition>
+
+
+<definition name="invoiceNew" extends="base" >
+        <put-attribute name="title" value="create new invoice" type="string" />
+		<put-attribute name="body" type="template" value="/WEB-INF/views/invoice/edit_invoice.jsp" />
+</definition>
+
+
+
 <definition name="word" extends="base" >
         <put-attribute name="title" value="word" type="string" />
 		<put-attribute name="body" type="template" value="/WEB-INF/views/word/wordList.jsp" />

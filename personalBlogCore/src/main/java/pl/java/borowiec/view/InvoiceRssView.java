@@ -20,7 +20,7 @@ import com.sun.syndication.feed.rss.Item;
  *         Module name : personalBlogCore
  *         Creating time : 11-04-2013 23:49:05
  */
-public class BlogRssView extends AbstractRssFeedView {
+public class InvoiceRssView extends AbstractRssFeedView {
 	@Override
 	protected void buildFeedMetadata(Map<String, Object> model, Channel feed, HttpServletRequest request) {
 		super.buildFeedMetadata(model, feed, request);

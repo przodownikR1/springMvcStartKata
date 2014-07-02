@@ -23,13 +23,10 @@
 				<div id="admin">ADMIN</div>
 				</td>
 			</security:authorize>
-			<td><spring:message code="changeLanguage" /> <a
-				href="?locale=en" title="English">EN</a> <a href="?locale=pl"
-				title="Polish">PL</a></td>
-	
 			
- 
-		
+			<td><spring:message code="changeLanguage"  />
+			 <a href="?locale=en" title="English">EN</a> <a href="?locale=pl"
+				title="Polish">PL</a></td>
 		
 		</tr>
 	</tbody>

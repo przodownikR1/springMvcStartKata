@@ -21,6 +21,7 @@ public class PerformanceHandler implements HandlerInterceptor {
 	private final static Logger logger = LoggerFactory.getLogger(PerformanceHandler.class);
 
 	private static final String START_TIME = "PERF_START";
+	
 	@Autowired
 	private PerformanceMonitor performanceMonitor;
 
@@ -30,9 +31,7 @@ public class PerformanceHandler implements HandlerInterceptor {
 		return true;
 	}
 
-	/*
-	 * Measure execution request time and write to log
-	 */
+	
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 		if (request.getRequestURI().endsWith(".js") || request.getRequestURI().endsWith(".css") || request.getRequestURI().endsWith(".pgn")
@@ -47,8 +46,7 @@ public class PerformanceHandler implements HandlerInterceptor {
 			String cut = request.getContextPath() + "" + request.getServletPath();
 			uri.replace(cut, "");
 			performanceMonitor.setMethodResponseTime(uri, last);
-			// DumpStack.dumpStacks();
-			// performanceMonitor.increaseViewCount(last);
+		
 
 			if (query != null) {
 				uri = uri + '?' + query;
@@ -65,10 +63,9 @@ public class PerformanceHandler implements HandlerInterceptor {
 		long last = System.currentTimeMillis() - startTime.longValue();
 		if (modelAndView != null) {
 			modelAndView.addObject("handlingTime", last);
-			System.err.println("from  modelAndView handling");
 		} else {
 
-			request.setAttribute("handlingTIme", last);
+			request.setAttribute("handlingTime", last);
 		}
 
 	}
