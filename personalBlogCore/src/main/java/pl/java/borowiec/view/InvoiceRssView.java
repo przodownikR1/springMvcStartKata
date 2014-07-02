@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 
-import pl.java.borowiec.blog.Blog;
+import pl.java.borowiec.simple.Invoice;
 
 import com.sun.syndication.feed.rss.Channel;
+import com.sun.syndication.feed.rss.Description;
 import com.sun.syndication.feed.rss.Item;
 
 /**
@@ -21,37 +22,38 @@ import com.sun.syndication.feed.rss.Item;
  *         Creating time : 11-04-2013 23:49:05
  */
 public class InvoiceRssView extends AbstractRssFeedView {
-	@Override
-	protected void buildFeedMetadata(Map<String, Object> model, Channel feed, HttpServletRequest request) {
-		super.buildFeedMetadata(model, feed, request);
-		feed.setTitle("blog test rss");
-		feed.setDescription("blog descpripion ");
-		feed.setLink("blog.org");
+    @Override
+    protected void buildFeedMetadata(Map<String, Object> model, Channel feed, HttpServletRequest request) {
+        super.buildFeedMetadata(model, feed, request);
+        feed.setTitle("invoice title");
+        feed.setDescription("invoice descpripion ");
+        feed.setLink("invoice.org");
 
-		List<Blog> Blogs = (List<Blog>) model.get("blogs");
-		for (Blog Blog : Blogs) {
-			Date date = Blog.getDateAdded();
-			if (feed.getLastBuildDate() == null || date.compareTo(feed.getLastBuildDate()) > 0) {
-				feed.setLastBuildDate(date);
-			}
-		}
+        @SuppressWarnings("unchecked")
+        List<Invoice> invoices = (List<Invoice>) model.get("invoices");
+        for (Invoice invoice : invoices) {
+            Date date = invoice.getCreataDate();
+            if (feed.getLastBuildDate() == null || date.compareTo(feed.getLastBuildDate()) > 0) {
+                feed.setLastBuildDate(date);
+            }
+        }
 
-	}
+    }
 
-	@Override
-	protected List<Item> buildFeedItems(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List<Blog> blogs = (List<Blog>) model.get("blogs");
-		List<Item> items = new ArrayList<Item>(blogs.size());
-		for (Blog blog : blogs) {
-			Item item = new Item();
-			String date = String.format("%1$tY-%1$tm-%1$td", blog.getDateAdded());
-
-			item.setTitle(String.format("Blog name %s", blog.getName()));
-			item.setPubDate(blog.getDateAdded());
-			// item.setLink("localhost:9090/PersonalBlog/blog/"+Blog.getId());
-			items.add(item);
-		}
-		return items;
-	}
+    @Override
+    protected List<Item> buildFeedItems(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        @SuppressWarnings("unchecked")
+        List<Invoice> invoices = (List<Invoice>) model.get("invoices");
+        List<Item> items = new ArrayList<>(invoices.size());
+        for (Invoice invoice : invoices) {
+            Item item = new Item();
+            //item.setLink(link);
+            item.setTitle(String.format("Blog name %s", invoice.getName()));
+            item.setPubDate(invoice.getCreataDate());
+           
+            items.add(item);
+        }
+        return items;
+    }
 
 }

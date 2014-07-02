@@ -8,11 +8,11 @@
 	<persistence-unit name="unitPU" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/personalBlog" />
-			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-		    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
-		    <property name="hibernate.connection.username" value="slawek"/>
-      		<property name="hibernate.connection.password" value="slawek"/>
+			 <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db" />
+			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
+		    <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+		    <property name="hibernate.connection.username" value="sa"/>
+      		<property name="hibernate.connection.password" value=""/>
       		<property name="hibernate.generate_statistics" value="true"/>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.default_batch_fetch_size" value="2">

@@ -50,5 +50,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDao.delete(invoice);
 
     }
+    
+    @Override
+    @Transactional
+    public void deleteAll() {
+        invoiceDao.deleteAll();
+        
+    }
 
 }

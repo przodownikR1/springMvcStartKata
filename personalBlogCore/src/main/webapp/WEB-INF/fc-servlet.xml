@@ -12,7 +12,9 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
     
 <mvc:annotation-driven  validator="validator"  conversion-service="conversionService">
- 
+ <!--  <mvc:message-converters>
+    <ref bean="marshallingConverter"/>
+  </mvc:message-converters> -->
 
 </mvc:annotation-driven>
 	
@@ -38,9 +40,6 @@
 	</context:component-scan> 
 
 	<mvc:view-controller path="/" view-name="/welcome/welcome"/>
-	
-	<mvc:view-controller path="/abc" view-name="dbc"/>
-	
 	<mvc:view-controller path="/loginForm" view-name="loginForm"/>
   	<mvc:view-controller path="/access-denied/" view-name="errors/access-denied"/>
   	<mvc:view-controller path="/sessionAuthError" view-name="errors/sessionAuthError"/>
@@ -79,9 +78,28 @@
     <bean id="viewResolverTitle" class="org.springframework.web.servlet.view.UrlBasedViewResolver" 
      p:order="1"  p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView"/>
 	
+	<bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+            <property name="classesToBeBound">
+                <list>
+                    <value>pl.java.borowiec.simple.Invoice</value>
+                </list>
+            </property>
+        </bean>
+        
+	<bean id="jaxbView" class="org.springframework.web.servlet.view.xml.MarshallingView" p:marshaller-ref="jaxb2Marshaller" />
+   
 
-	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="1" p:defaultContentType="application/json" p:mediaTypes-ref="mediaMapTypes" p:favorPathExtension="false" p:favorParameter="true"
-		p:viewResolvers-ref="resolverViews" />
+    <bean id="marshallingConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter" p:marshaller-ref="jaxb2Marshaller"/>
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="1" p:defaultContentType="application/json"
+	 p:mediaTypes-ref="mediaMapTypes" p:favorPathExtension="false" p:favorParameter="true" 
+		p:viewResolvers-ref="resolverViews" p:defaultViews-ref="views" />
+
+
+      <util:list id="views">
+        <ref bean="jaxbView"/>
+        <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+      </util:list>
 
 	<util:map id="mediaMapTypes">
 	    <entry key="json" value="application/json"/>
@@ -92,6 +110,7 @@
 
 	<util:list id="resolverViews">
 		<ref bean="viewResolverTitle"/>
+		
 	</util:list>
 
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:order="1" 

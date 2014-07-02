@@ -103,11 +103,11 @@
 		<maven.war.plugin>2.2</maven.war.plugin>
 		<wtp.version>2.0</wtp.version>
 		<httpClient.version>4.1.2</httpClient.version>
-		<!-- camel -->
-		<camel-core.version>2.10.0</camel-core.version>
+		
 		<velocity.version>1.7</velocity.version>
 		<velocity-tools.version>2.0</velocity-tools.version>
-        <ehcache.version>2.6.5</ehcache.version>
+        	<ehcache.version>2.6.5</ehcache.version>
+                <lombok.version>1.14.2</lombok.version>
 	</properties>
 
 	<modules>
@@ -139,11 +139,11 @@
 				<version>${mail.version}</version>
 			</dependency>
 
-				<dependency>
-	<groupId>net.java.dev.rome</groupId>
-	<artifactId>rome</artifactId>
-	<version>1.0.0</version>
-</dependency>
+			<dependency>
+				<groupId>net.java.dev.rome</groupId>
+				<artifactId>rome</artifactId>
+				<version>1.0.0</version>
+			</dependency>
 
 			<dependency>
 				<groupId>commons-collections</groupId>
@@ -152,7 +152,11 @@
 			</dependency>
 			
 			
-	        
+	      		  <dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
@@ -306,6 +310,22 @@
 				</exclusions>
 
 			</dependency>
+
+                       <dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<!-- Exclude Commons Logging in favor of SLF4j -->
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+
+			</dependency>
+
+
 
 			<dependency>
 				<groupId>org.springframework</groupId>

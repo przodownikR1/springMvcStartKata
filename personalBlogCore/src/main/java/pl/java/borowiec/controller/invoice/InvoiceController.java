@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,9 +38,9 @@ public class InvoiceController {
     private final static String INVOICE = "invoice";
     private final static String INVOICE_NEW = "invoiceNew";
 
-    private InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
-    private InvoiceValidator invoiceValidator;
+    private final InvoiceValidator invoiceValidator;
     
     private void createInvoice(InvoiceService invoiceService){
         InvoiceGenerator.generate().forEach(invoice -> invoiceService.save(invoice)); 
@@ -50,13 +51,15 @@ public class InvoiceController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         binder.registerCustomEditor(Date.class,"creataDate", new CustomDateEditor(dateFormat, true));
         binder.registerCustomEditor(Date.class,"payDate", new CustomDateEditor(dateFormat, true));
-        binder.setValidator(invoiceValidator);
+        //binder.setValidator(invoiceValidator);
     }
     
     @Autowired
     public InvoiceController(InvoiceService invoiceService,InvoiceValidator invoiceValidator){
+        log.info("===========================================================================");
         this.invoiceService = invoiceService;
         this.invoiceValidator = invoiceValidator;
+        invoiceService.deleteAll(); //double invoking
         createInvoice(invoiceService);
     }
     
@@ -80,8 +83,9 @@ public class InvoiceController {
     
     //valid wlaczenie walidacji , result - wynik wewnetrzny walidacji  //po submit
     @RequestMapping(value={"","/edit/{id}"},method = RequestMethod.POST)
-    public String create(@Valid Invoice invoice, BindingResult result) {
+    public String create(@Valid Invoice invoice, BindingResult result,Errors errors) {
         log.info("+++  invoice save :  {}",invoice);
+        invoiceValidator.validate(invoice, errors);
         if (result.hasErrors()) {
 
             log.info("+++  invoice error  {}",result);
@@ -107,6 +111,12 @@ public class InvoiceController {
         return invoiceService.getList();
     }
     
+    //produces = format w jakim bedziemy serworac tresc
+    @RequestMapping(value="/xml",produces=MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody //wymagane jak chcemy pominac viewResolver i bezposrednio wyswietlac zawartosc
+    public List<Invoice> getInvoicesAsXml(){
+        return invoiceService.getList();
+    }
     
         
     @RequestMapping("/all")

@@ -10,4 +10,5 @@ public interface InvoiceService {
     List<Invoice> getList();
     Invoice save(Invoice invoice);
     void delete(Invoice invoice);
+    void deleteAll();
 }
