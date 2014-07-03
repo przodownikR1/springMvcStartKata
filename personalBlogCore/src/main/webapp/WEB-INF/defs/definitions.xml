@@ -34,6 +34,10 @@
 		<put-attribute name="body" type="template" value="/WEB-INF/views/invoice/edit_invoice.jsp" />
 </definition>
 
+<definition name="invoiceError" extends="base" >
+        <put-attribute name="title" value="error invoice" type="string" />
+		<put-attribute name="body" type="template" value="/WEB-INF/views/invoice/invoice_error.jsp" />
+</definition>
 
 
 <definition name="word" extends="base" >

@@ -5,7 +5,7 @@
            
     <a href ="${invoiceAdd}">Dodaj rekord</a>
     <br/>
-
+  
 <table border="1">
 	<tr bgcolor="yellow">
 		<th>id</th>
@@ -16,11 +16,17 @@
 		<th>amount</th>
 		<th>type</th>
 		<th>edit</th>
+		<th>delete</th>
+		
 	</tr>
 	<c:forEach var="invoice" items="${invoices}">
 	    <spring:url value="/invoice/edit/{id}" var="invoiceEdit">
            <spring:param name="id" value="${invoice.id}"></spring:param>
        </spring:url>
+        <spring:url value="/invoice/delete/{id}" var="invoiceDelete">
+           <spring:param name="id" value="${invoice.id}"></spring:param>
+       </spring:url>
+       
 		<tr>
 		  
 			<td><c:out value="${invoice.id}" /></td>
@@ -34,6 +40,7 @@
 			<td><c:out value="${invoice.amount}" /></td>
 			<td><c:out value="${invoice.type}" /></td>
 			<td><a href="${invoiceEdit}">Edit</a></td>
+			<td><a href="${invoiceDelete}">Delete</a></td>
 		</tr>
 	</c:forEach>
 

@@ -1,0 +1,1 @@
+IllegalStateException hahahah tutaj jestem

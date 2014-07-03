@@ -13,7 +13,6 @@ import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 import pl.java.borowiec.simple.Invoice;
 
 import com.sun.syndication.feed.rss.Channel;
-import com.sun.syndication.feed.rss.Description;
 import com.sun.syndication.feed.rss.Item;
 
 /**
