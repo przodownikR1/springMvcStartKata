@@ -1,0 +1,194 @@
+========================================================SimpleUrlHandlerMapping
+@Configuration
+public class WebMvcContextConfiguration {
+		@Bean
+		public IndexController indexController() {
+		return new IndexController();
+		}
+		@Bean
+		public HandlerMapping simpleUrlHandlerMapping() {
+		SimpleUrlHandlerMapping urlMapping = new SimpleUrlHandlerMapping();
+		Properties mappings = new Properties();
+		mappings.put("/index.htm", "indexController");
+		urlMapping.setMappings(mappings);
+		return urlMapping;
+
+}
+}
+
+==========================================================ControllerBeanNameHandlerMapping
+
+@Configuration
+public class WebMvcContextConfiguration {
+	@Bean(name = "index")
+	public IndexController indexController() {
+	return new IndexController();
+	}
+	@Bean
+	public HandlerMapping controllerBeanNameHandlerMapping() {
+		ControllerBeanNameHandlerMapping mapping;
+		mapping = new ControllerBeanNameHandlerMapping();
+		mapping.setUrlSuffix(".htm");
+		return mapping;
+	}
+}
+
+=======================================================ControllerClassNameHandlerMapping
+wykrywa wszystkie kontrollery w application context , i uzywa prostych nazw do stworzenia url 
+
+IndexController - > /index 
+nie wspiera przedrostków np .htm !
+
+@Configuration
+public class WebMvcContextConfiguration {
+	@Bean
+	public IndexController indexController() {
+	return new IndexController();
+	}
+}
+
+=============================================================DefaultAnnotationHandlerMapping and RequestMappingHandlerMapping
+@Controller
+public class IndexController {
+	@RequestMapping(value = "/index.htm")
+	public ModelAndView indexPage() {
+	return new ModelAndView("/WEB-INF/views/index.jsp");
+}
+
+====================HandlerAdapter => laczy dispatcher z wybranym handlerem
+
+MultipartResolver sprawdza czy request jest w formie  multipart file => upload file
+CommonsMultipartResolver
+
+
+RequestMappingHandlerAdapter = > konwertuje argumenty metody na parametry requestu.Zwracana przez niego wartość to ModelAndView
+
+
+LocaleResolver
+   AcceptHeaderLocaleResolver
+   CookieLocaleResolver
+   FixedLocaleResolver
+   SessionLocaleResolver
+   
+ThemeResolver => który temat bedzie wykorzystany do renderowania strony
+   CookieThemeResolver
+   FixedThemeResolver
+   SessionThemeResolver
+   
+   
+   
+HandlerExceptionResolver = > kontrola oblugi exceptions podczas obsługi requesta
+=====================================================================================
+RequestToViewNameTranslator    
+
+http://localhost:8080/bookstore/admin/index.html = > admin/index
+   
+ViewResolver = elastyczność !!.  view name -> probuje znalezc odpowiednia implementacje 
+
+==========================Controller + java config
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = { "com.apress.prospringmvc.bookstore.web" })
+public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
+
+		@Bean(name = "/index.htm")
+		public Controller index() {
+		   ParameterizableViewController index;
+		   index = new ParameterizableViewController();
+		   index.setViewName("index");
+		   return index;
+		}
+}
+
+============
+valitator
+
+public class AccountValidator implements Validator {
+
+@Override
+public boolean supports(Class<?> clazz) {
+  return (Account.class).isAssignableFrom(clazz);
+}
+@Override
+public void validate(Object target, Errors errors) {
+ ValidationUtils.rejectIfEmpty(errors, "username","required", new Object[] {"Username"});
+ }
+ 
+ wykorzytanie
+ 
+@InitBinder
+public void initBinder(WebDataBinder binder) {
+   binder.setDisallowedFields("id");
+   binder.setValidator(new AccountValidator());
+}
+
+@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
+ public String handleRegistration(@Valid @ModelAttribute Account account, BindingResult result) {
+    if (result.hasErrors()) {
+         return "customer/register";
+      }
+    this.accountService.save(account);
+  return "redirect:/customer/account/" + account.getId();
+}
+
+=========================================================================================
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = { "com.apress.prospringmvc.bookstore.web" })
+public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
+@Override
+public void addInterceptors(InterceptorRegistry registry) {
+registry.addInterceptor(localeChangeInterceptor());
+}
+@Bean
+public HandlerInterceptor localeChangeInterceptor() {
+LocaleChangeInterceptor localeChangeInterceptor;
+localeChangeInterceptor = new LocaleChangeInterceptor();
+localeChangeInterceptor.setParamName("lang");
+return localeChangeInterceptor;
+}
+@Bean
+public LocaleResolver localeResolver() {
+return new CookieLocaleResolver();
+}
+@Bean
+public MessageSource messageSource() {
+ReloadableResourceBundleMessageSource messageSource;
+messageSource = new ReloadableResourceBundleMessageSource();
+messageSource.setBasename("classpath:/messages");
+messageSource.setUseCodeAsDefaultMessage(true);
+return messageSource;
+}
+}
+
+////////////scopy
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = { "com.apress.prospringmvc.bookstore.web" })
+public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
+	@Bean
+	@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+	public Cart cart() {
+	   return new Cart();
+	}
+}
+
+
+@Controller
+public class CartController {
+private Logger logger = LoggerFactory.getLogger(CartController.class);
+   @Autowired
+    private Cart cart;
+    @Autowired
+    private BookstoreService bookstoreService;
+   @RequestMapping("/cart/add/{bookId}")
+          public String addToCart(@PathVariable("bookId") long bookId) {
+             Book book = this.bookstoreService.findBook(bookId);
+             this.cart.addBook(book);
+               this.logger.info("Cart: {}", this.cart);
+                return "redirect:" + referer;
+}
+}
