@@ -14,7 +14,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class AOPPointcutActionDef {
 	
-	@Pointcut("@annotation(pl.java.borowiec.annotation.CatchException) || within(@org.springframework.stereotype.Service *) ")
+	@Pointcut("@annotation(pl.java.borowiec.annotation.CatchException)) ")
 	public void serviceExLog(){
 
 	}

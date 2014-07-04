@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.util.StopWatch;
  *         Creating time : 11-03-2013 23:43:02
  */
 @Aspect
-// @Component("loggerAOP")
+@Component("loggerAOP")
 public class ServicePerformanceLogger {
 	private final static Logger logger = LoggerFactory.getLogger(ServicePerformanceLogger.class);
 
@@ -23,7 +24,7 @@ public class ServicePerformanceLogger {
 		sw.start(pjp.getSignature().getName());
 		Object returnValue = pjp.proceed();
 		sw.stop();
-		logger.info(" method : " + pjp.getSignature().getName() + "  time:  " + sw.prettyPrint());
+		logger.info("#########  method : " + pjp.getSignature().getName() + "  time:  " + sw.prettyPrint());
 		return returnValue;
 	}
 

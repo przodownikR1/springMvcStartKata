@@ -13,5 +13,7 @@ public class PointcutActionDef {
 	@Pointcut("execution(public * pl.java.borowiec.service..*.*(..))")
 	public void serviceLog() {
 	}
+	
+	
 
 }

@@ -13,10 +13,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD })
 public @interface CatchException {
-	boolean sendEmail() default false;
+    boolean sendEmail() default false;
 
-	boolean sendLog() default false;
+    boolean sendLog() default false;
 
-	boolean sendDS() default true;
+    boolean sendDS() default true;
 
 }
