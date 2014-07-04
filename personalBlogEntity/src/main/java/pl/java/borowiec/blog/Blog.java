@@ -3,6 +3,7 @@ package pl.java.borowiec.blog;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -24,6 +25,7 @@ public class Blog extends CommonEntity {
 	private static final long serialVersionUID = 902110390321596640L;
 	private String name;
 	@ManyToOne
+	@JoinColumn(name="id_owner")
 	private User owner;
 
 	@ManyToOne

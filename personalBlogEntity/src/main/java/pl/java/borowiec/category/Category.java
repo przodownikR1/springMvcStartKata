@@ -27,7 +27,7 @@ public class Category extends CommonEntity {
 	private Category parentCategory;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentCategory")
-	private Set<Category> subCategories = new HashSet<Category>();
+	private Set<Category> subCategories = new HashSet<>();
 
 	public Category() {
 	}

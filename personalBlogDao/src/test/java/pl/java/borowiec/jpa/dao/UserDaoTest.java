@@ -24,7 +24,7 @@ import pl.java.borowiec.dao.InitExampleObject;
 public class UserDaoTest extends InitExampleObject {
 
 	public UserDaoTest() {
-
+          
 	}
 
 	@Autowired

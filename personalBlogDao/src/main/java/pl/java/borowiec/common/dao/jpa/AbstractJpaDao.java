@@ -30,6 +30,8 @@ public class AbstractJpaDao<T extends Serializable> {
 		return em.find(clazz, id);
 	}
 
+	
+	
 	public List<T> getAll() {
 		return em.createQuery("FROM " + this.clazz.getName(), clazz).getResultList();
 	}

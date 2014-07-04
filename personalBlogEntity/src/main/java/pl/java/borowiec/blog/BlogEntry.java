@@ -65,9 +65,7 @@ public class BlogEntry extends CommonEntity {
 	@JoinColumn(name = "entryId")
 	private List<Tag> tags;
 
-	@ManyToOne
-	private Comment comment;
-
+	
 	public void addBlog(Blog blog) {
 
 	}
@@ -136,12 +134,6 @@ public class BlogEntry extends CommonEntity {
 		this.tags = tags;
 	}
 
-	public Comment getComment() {
-		return comment;
-	}
-
-	public void setComment(Comment comment) {
-		this.comment = comment;
-	}
+	
 
 }

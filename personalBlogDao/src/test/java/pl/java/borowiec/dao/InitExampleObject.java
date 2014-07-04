@@ -84,7 +84,7 @@ public class InitExampleObject {
 		blogTomekEntry.setTitle("A couple words about me....");
 		blogTomekEntry.setEntryState(EntryState.PUBLISHED);
 		blogTomekEntry.setAllowComment(false);
-		blogSlawekEntry.setComment(tomekComment);
+		
 
 	}
 

@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -18,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 @Entity
 @XmlRootElement
+@Data
 public class UnExpectedException extends ExceptionHandling {
 	private static final long serialVersionUID = 8284569238600218725L;
 	protected static final String TABLE_NAME = "UNEXPECTED_EXCEPTION";
@@ -60,44 +63,5 @@ public class UnExpectedException extends ExceptionHandling {
 		super(exception, message, description);
 	}
 
-	public String getErrorNumber() {
-		return errorNumber;
-	}
-
-	public void setErrorNumber(String errorNumber) {
-		this.errorNumber = errorNumber;
-	}
-
-	public String getFunctionName() {
-		return functionName;
-	}
-
-	public void setFunctionName(String functionName) {
-		this.functionName = functionName;
-	}
-
-	public String getFormOrModuleName() {
-		return formOrModuleName;
-	}
-
-	public void setFormOrModuleName(String formOrModuleName) {
-		this.formOrModuleName = formOrModuleName;
-	}
-
-	public String getArguments() {
-		return arguments;
-	}
-	public void setArguments(String arguments) {
-		this.arguments = arguments;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("functionName", getFunctionName())
-				.append("message", getMessage()).toString();
-	}
+	
 }

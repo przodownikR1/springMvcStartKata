@@ -66,7 +66,9 @@
 		</bean>
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />	
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory" p:jpaDialect-ref="jpaDialect"/>     
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" p:entityManagerFactory-ref="entityManagerFactory" p:jpaDialect-ref="jpaDialect"/> 
+	    
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/> 
     <context:component-scan base-package="pl.java.borowiec.common.dao.jpa"/>
 </beans>
