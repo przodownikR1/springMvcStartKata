@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <style type="text/css">
   </style>
-  <c:url value="/j_spring_security_logout" var="logoutUrl"/>
+  <c:url value="/logout" var="logoutUrl"/>
  
   
 </head>

@@ -2,14 +2,20 @@ package pl.java.borowiec.simple;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Future;
@@ -29,6 +35,9 @@ import org.springframework.format.annotation.NumberFormat.Style;
 @Entity   //wymagane przez hibernate           // Entity POJO
 @Table(name="simple_invoice")
 @Data
+@NamedQueries({
+  @NamedQuery(name="Invoice.findByUser",query="FROM Invoice inv WHERE inv.user = :user ")
+})
 public class Invoice extends AbstactId implements Serializable{  // POJO
    
     private static final long serialVersionUID = -7305875286472112192L;
@@ -38,6 +47,9 @@ public class Invoice extends AbstactId implements Serializable{  // POJO
     private String name;
     
     private boolean payed;
+    
+    @OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+    List<Product> products = new ArrayList<>();
    
     @Past
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -66,5 +78,7 @@ public class Invoice extends AbstactId implements Serializable{  // POJO
      @ManyToOne(cascade = CascadeType.ALL)
      private Customer customer;
     
+     
+     
 }
 

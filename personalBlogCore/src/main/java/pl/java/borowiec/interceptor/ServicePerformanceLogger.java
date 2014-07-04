@@ -1,8 +1,10 @@
 package pl.java.borowiec.interceptor;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,7 +20,7 @@ import org.springframework.util.StopWatch;
 public class ServicePerformanceLogger {
 	private final static Logger logger = LoggerFactory.getLogger(ServicePerformanceLogger.class);
 
-	@Around("PointcutActionDef.serviceLog()")
+	@Around("PointcutActionDef.serviceLog()")	
 	public Object O(ProceedingJoinPoint pjp) throws Throwable {
 		StopWatch sw = new StopWatch();
 		sw.start(pjp.getSignature().getName());

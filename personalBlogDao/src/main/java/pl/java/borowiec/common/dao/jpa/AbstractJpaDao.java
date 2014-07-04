@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.google.common.base.Preconditions;
 
@@ -16,11 +19,15 @@ import com.google.common.base.Preconditions;
  */
 public class AbstractJpaDao<T extends Serializable> {
 
+    
+    
 	private final Class<T> clazz;
 
 	@PersistenceContext
-	protected EntityManager em;
+	protected  EntityManager em;
 
+	
+	
 	public AbstractJpaDao(final Class<T> clazzToSet) {
 		this.clazz = clazzToSet;
 	}
@@ -56,6 +63,8 @@ public class AbstractJpaDao<T extends Serializable> {
 		Preconditions.checkState(entity != null);
 		this.remove(entity);
 	}
+	
+	
 
 	public long countAll() {
 		return em.createQuery("Select count(*) FROM " + this.clazz.getName(), Long.class).getSingleResult();

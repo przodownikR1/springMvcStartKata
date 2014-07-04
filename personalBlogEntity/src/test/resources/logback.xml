@@ -19,7 +19,7 @@
  
   <logger name="pl.java.borowiec" level="info" />
  <logger name="org.hibernate" level="info" />
- 
+ <logger name="org.hibernate.sql" level="debug" />
  
   <root level="info">
     <appender-ref ref="console" />
