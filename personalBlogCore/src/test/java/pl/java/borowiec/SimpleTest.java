@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.xml.bind.Marshaller;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -46,7 +47,7 @@ public class SimpleTest {
 
     @Test
     public void shoulMarshallerWork() throws XmlMappingException, IOException {
-
+        
         jaxb2Marshaller.marshal(invoices.get(0), new StreamResult(new FileWriter(INVOICE_FILE)));
 
         File f = new File(INVOICE_FILE);

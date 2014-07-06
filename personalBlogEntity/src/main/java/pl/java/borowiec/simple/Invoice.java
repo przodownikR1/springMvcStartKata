@@ -24,6 +24,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -55,7 +56,8 @@ public class Invoice extends AbstactId {
     @Column(name = "invoice_name", nullable = false)
     private String name;
     
-    @XmlElement(name = "paid", required = true)
+    
+    @XmlAttribute( name = "paid" )
     private boolean paid;
 
     @XmlElementWrapper(name = "products")
@@ -88,7 +90,7 @@ public class Invoice extends AbstactId {
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @XmlElement(name = "invoice_customer_type", required = true)
+    @XmlAttribute( name = "type" )
     @Column(name = "invoice_type")
     private InvoiceType type;
 
