@@ -22,7 +22,12 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,8 +38,10 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import pl.java.borowiec.common.AbstactId;
 import pl.java.borowiec.product.Product;
+import pl.java.borowiec.xml.DateAdapter;
 
-@XmlRootElement(name = "invoice")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "simple_invoice")
 @Data
@@ -44,19 +51,27 @@ public class Invoice extends AbstactId {
 
     private static final long serialVersionUID = -7305875286472112192L;
 
+    @XmlElement(name = "invoice_name", required = true)
     @Column(name = "invoice_name", nullable = false)
     private String name;
+    
+    @XmlElement(name = "paid", required = true)
+    private boolean paid;
 
-    private boolean payed;
-
+    @XmlElementWrapper(name = "products")
+    @XmlElement(name = "products", required = true)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Product> products = new ArrayList<>();
 
     @Past
+    @XmlElement(name = "create_date", required = true)
+    @XmlJavaTypeAdapter(DateAdapter.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creataDate;
 
     @Future
+    @XmlElement(name = "pay_date", required = true)
+    @XmlJavaTypeAdapter(DateAdapter.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date payDate;
 
@@ -68,10 +83,12 @@ public class Invoice extends AbstactId {
 
     @Min(10)
     @Max(1000)
+    @XmlElement(name = "amount", required = true)
     @NumberFormat(style = Style.CURRENCY)
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
+    @XmlElement(name = "invoice_customer_type", required = true)
     @Column(name = "invoice_type")
     private InvoiceType type;
 

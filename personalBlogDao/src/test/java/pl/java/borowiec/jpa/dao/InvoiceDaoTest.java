@@ -68,7 +68,7 @@ public class InvoiceDaoTest {
         }
 
         invoice.setDescription("description.....");
-        invoice.setPayed(true);
+        invoice.setPaid(true);
         invoice.setType(InvoiceType.BUSINESS);
         invoice.setUser("slawek borowiec");
         invoice.setName("computers");

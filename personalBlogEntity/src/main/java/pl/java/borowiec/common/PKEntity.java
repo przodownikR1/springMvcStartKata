@@ -10,6 +10,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,11 +25,13 @@ public abstract class PKEntity extends AbstactId {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_modification")
     @Basic(fetch = FetchType.LAZY)
+    @XmlTransient
     protected Date dateModification;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_added", nullable = false)
     @Basic(fetch = FetchType.LAZY)
+    @XmlTransient
     protected Date dateAdded = new Date();
 
 
