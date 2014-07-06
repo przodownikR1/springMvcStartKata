@@ -28,23 +28,23 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import pl.java.borowiec.address.Address;
-import pl.java.borowiec.common.CommonEntity;
+import pl.java.borowiec.common.PKEntity;
 import pl.java.borowiec.def.RegExp;
 import pl.java.borowiec.types.Sex;
 
 
-/**
- * @author Sławomir Borowiec
- *         Module name : personalBlogEntity
- *         Creating time : 10-03-2013 23:27:55
- */
 @Entity
-public class User extends CommonEntity implements UserDetails {
+@Data
+@EqualsAndHashCode(callSuper=true)
+public class User extends PKEntity implements UserDetails {
 
 	/**
 	 * 
@@ -100,7 +100,7 @@ public class User extends CommonEntity implements UserDetails {
 	@Column(nullable = false, length = 11)
 	private String phoneNumber;
 
-	/** The ip. */
+	
 	@Column(length = 20)
 	@Size(min = 4, max = 20)
 	@Basic(fetch = FetchType.LAZY)
@@ -110,157 +110,42 @@ public class User extends CommonEntity implements UserDetails {
 	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = { @JoinColumn(name = "roleId") })
 	// @IndexColumn(base = 0, name = "idx", nullable = false)
 	@Valid
-	private List<UserRole> roles = new LinkedList<UserRole>();
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	@Override
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Sex getSex() {
-		return sex;
-	}
-
-	public void setSex(Sex sex) {
-		this.sex = sex;
-	}
-
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public byte[] getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public List<UserRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<UserRole> roles) {
-		this.roles = roles;
-	}
+	private List<UserRole> roles = new LinkedList<>();
 
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> grantedAuthoritiesSet = new HashSet<GrantedAuthority>(getRoles().size());
+		Set<GrantedAuthority> grantedAuthoritiesSet = new HashSet<>(getRoles().size());
 		for (UserRole role : getRoles()) {
 			grantedAuthoritiesSet.add(new SimpleGrantedAuthority(role.getRole()));
 		}
 		return grantedAuthoritiesSet;
 	}
 
-	@Override
-	public String getUsername() {
-		return getEmail();
-	}
+    @Override
+    public String getUsername() {
+        return login;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
+	
 
 }

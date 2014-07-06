@@ -10,9 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
-import pl.java.borowiec.common.CommonEntity;
+import pl.java.borowiec.common.PKEntity;
 import pl.java.borowiec.user.User;
 
 /**
@@ -21,76 +25,39 @@ import pl.java.borowiec.user.User;
  *         Creating time : 30-03-2013 01:04:55
  */
 @Entity
-public class Comment extends CommonEntity {
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class Comment extends PKEntity {
+    
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    private Comment parent;
 
-	@ManyToOne(optional = true, cascade = CascadeType.ALL)
-	@JoinColumn(name = "parent_id", referencedColumnName = "id")
-	private Comment parent;
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    private List<Comment> subComments = new ArrayList<>();
 
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-	private List<Comment> subComments = new ArrayList<Comment>();
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private User owner;
+    
+    @NotEmpty
+    @Size(min = 2, max = 20)
+    private String userName;
+    
+    @NotEmpty
+    @Size(min = 10, max = 255)
+    private String title;
+    
+    @NotEmpty
+    @Size(min = 10, max = 2000)
+    private String content;
 
-	@ManyToOne
-	@JoinColumn(name = "userId", referencedColumnName = "id")
-	private User owner;
-	@NotEmpty
-	@Size(min = 2, max = 20)
-	private String userName;
-	@NotEmpty
-	@Size(min = 10, max = 255)
-	private String title;
-	@NotEmpty
-	@Size(min = 10, max = 2000)
-	private String content;
-
-	public List<Comment> getSubComments() {
-		return subComments;
-	}
-
-	public void addComment(Comment subComment) {
-		subComment.addComment(this);
-		this.addComment(subComment);
-	}
-
-	public void setSubComments(List<Comment> subComments) {
-		this.subComments = subComments;
-	}
-
-	public User getOwner() {
-		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void addComment(Comment subComment) {
+        subComment.addComment(this);
+        this.addComment(subComment);
+    }
 
 }

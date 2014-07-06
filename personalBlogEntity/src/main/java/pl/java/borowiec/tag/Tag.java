@@ -3,42 +3,29 @@ package pl.java.borowiec.tag;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
-import pl.java.borowiec.common.CommonEntity;
+import pl.java.borowiec.common.PKEntity;
 
-/**
- * @author Sławomir Borowiec
- *         Module name : personalBlogEntity
- *         Creating time : 29-03-2013 23:59:19
- */
+
 @Entity
-public class Tag extends CommonEntity {
+@Data
+@EqualsAndHashCode(callSuper=true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tag extends PKEntity{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3175405194252034474L;
 
 	@NotEmpty
 	@Size(min = 2, max = 30)
 	private String name;
 
-	public Tag() {
-		super();
-	}
 
-	public Tag(String name) {
-		super();
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

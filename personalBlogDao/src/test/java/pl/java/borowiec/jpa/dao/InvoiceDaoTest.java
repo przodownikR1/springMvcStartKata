@@ -18,10 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pl.java.borowiec.common.dao.jpa.invoice.InvoiceDTO;
 import pl.java.borowiec.common.dao.jpa.invoice.InvoiceDao;
+import pl.java.borowiec.product.Product;
 import pl.java.borowiec.simple.Customer;
 import pl.java.borowiec.simple.Invoice;
 import pl.java.borowiec.simple.InvoiceType;
-import pl.java.borowiec.simple.Product;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:dao.xml" })

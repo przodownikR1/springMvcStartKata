@@ -11,6 +11,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import pl.java.borowiec.comment.Comment;
 import pl.java.borowiec.def.RegExp;
 
 /**
@@ -20,104 +24,41 @@ import pl.java.borowiec.def.RegExp;
  */
 @Embeddable
 @XmlRootElement(name = "address")
+@NoArgsConstructor
+@Data
 public class Address implements Serializable {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -5271571702826932282L;
-	@NotNull
-	@Size(min = 2, max = 50)
-	@Column(nullable = false, length = 50)
-	private String country;
-	
-	@NotNull
-	@Size(min = 2, max = 50)
-	@Column(nullable = false, length = 50)
-	private String town;
-	
-	@Size(min = 2, max = 50)
-	@Pattern(regexp = ".+")
-	private String street;
+    private static final long serialVersionUID = -5271571702826932282L;
+    @NotNull
+    @Size(min = 2, max = 50)
+    @Column(nullable = false, length = 50)
+    private String country;
 
-	
-	private String streetNumber;
+    @NotNull
+    @Size(min = 2, max = 50)
+    @Column(nullable = false, length = 50)
+    private String town;
 
-	private String homeNumber;
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = ".+")
+    private String street;
 
-	@Column(nullable = false, length = 6)
-	@Pattern(regexp = RegExp.POSTAL_CODE_REGEX)
-	private String zipcode;
+    private String streetNumber;
 
-	@Column(name = "latitude", nullable = true)
-	@Basic(fetch = FetchType.LAZY)
-	private Double latitude;
+    private String homeNumber;
 
-	@Column(name = "longitude", nullable = true)
-	@Basic(fetch = FetchType.LAZY)
-	private Double longitude;
+    @Column(nullable = false, length = 6)
+    @Pattern(regexp = RegExp.POSTAL_CODE_REGEX)
+    private String zipcode;
 
-	public String getCountry() {
-		return country;
-	}
+    @Column(name = "latitude", nullable = true)
+    @Basic(fetch = FetchType.LAZY)
+    private Double latitude;
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getTown() {
-		return town;
-	}
-
-	public void setTown(String town) {
-		this.town = town;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getStreetNumber() {
-		return streetNumber;
-	}
-
-	public void setStreetNumber(String streetNumber) {
-		this.streetNumber = streetNumber;
-	}
-
-	public String getHomeNumber() {
-		return homeNumber;
-	}
-
-	public void setHomeNumber(String homeNumber) {
-		this.homeNumber = homeNumber;
-	}
-
-	public String getZipcode() {
-		return zipcode;
-	}
-
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
-	}
-
-	public Double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
-
-	public Double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
+    @Column(name = "longitude", nullable = true)
+    @Basic(fetch = FetchType.LAZY)
+    private Double longitude;
 
 }

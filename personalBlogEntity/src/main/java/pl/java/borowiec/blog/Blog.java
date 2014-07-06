@@ -7,8 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import pl.java.borowiec.category.Category;
-import pl.java.borowiec.common.CommonEntity;
+import pl.java.borowiec.common.PKEntity;
 import pl.java.borowiec.user.User;
 
 /**
@@ -17,60 +20,31 @@ import pl.java.borowiec.user.User;
  *         Creating time : 29-03-2013 23:41:02
  */
 @Entity
-public class Blog extends CommonEntity {
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class Blog extends PKEntity {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 902110390321596640L;
-	private String name;
-	@ManyToOne
-	@JoinColumn(name="id_owner")
-	private User owner;
+    private static final long serialVersionUID = 902110390321596640L;
+    private String name;
+    @ManyToOne
+    @JoinColumn(name = "id_owner")
+    private User owner;
 
-	@ManyToOne
-	private Category category;
+    @ManyToOne
+    private Category category;
 
-	@OneToMany(mappedBy = "blog")
-	private Set<BlogEntry> entries;
+    @OneToMany(mappedBy = "blog")
+    private Set<BlogEntry> entries;
 
-	public String getName() {
-		return name;
-	}
+    // Bidirectional relaction
+    public void addBlogEntry(BlogEntry blogEntry) {
+        blogEntry.setBlog(this);
+        entries.add(blogEntry);
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public User getOwner() {
-		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
-
-	public Set<BlogEntry> getEntries() {
-		return entries;
-	}
-
-	public void setEntries(Set<BlogEntry> entries) {
-		this.entries = entries;
-	}
-
-	// Bidirectional relaction
-	public void addBlogEntry(BlogEntry blogEntry) {
-		blogEntry.setBlog(this);
-		entries.add(blogEntry);
-
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    }
 
 }

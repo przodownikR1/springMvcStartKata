@@ -47,7 +47,7 @@ public class UserJdbcRepositoryImpl implements UserJdbcRepository {
 
 	@Override
 	public User findById(long id) throws DataAccessException {
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         User user = this.namedParameterJdbcTemplate.queryForObject(
                 "SELECT id, login, firstName,lastName,password,active,email,sex,birthDate,photo,phoneNumber FROM User WHERE id=:id",
@@ -83,7 +83,7 @@ public class UserJdbcRepositoryImpl implements UserJdbcRepository {
 
 	@Override
 	public List<User> getAllUser() throws DataAccessException {
-		List<User> users = new ArrayList<User>();
+		List<User> users = new ArrayList<>();
 		users.addAll(this.jdbcTemplate.query(
 				"SELECT id, login, firstName,lastName,password,active,email,sex,birthDate,photo,phoneNumber FROM User ORDER BY login",
 				ParameterizedBeanPropertyRowMapper.newInstance(User.class)));
@@ -92,7 +92,7 @@ public class UserJdbcRepositoryImpl implements UserJdbcRepository {
 
 	@Override
 	public User findByLogin(String login) throws DataAccessException {
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<>();
         params.put("login", login);
         User user = this.namedParameterJdbcTemplate.queryForObject(
                 "SELECT id, login, firstName,lastName,password,active,email,sex,birthDate,photo,phoneNumber FROM User WHERE login=:login",
@@ -127,7 +127,7 @@ public class UserJdbcRepositoryImpl implements UserJdbcRepository {
 
 	@Override
 	public List<User> findByLastName(String lastName) throws DataAccessException {
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<>();
 		params.put("lastName", lastName + "%");
 		List<User> users = this.namedParameterJdbcTemplate.query(
 				"SELECT id, login, firstName,lastName,password,active,email,sex,birthDate,photo,phoneNumber FROM User WHERE lastName like :lastName", params,

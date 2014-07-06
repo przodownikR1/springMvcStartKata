@@ -1,28 +1,21 @@
 package pl.java.borowiec.simple;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import pl.java.borowiec.common.AbstactId;
 
 @Entity
 @Data
-public class Customer {
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
-    
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class Customer extends AbstactId {
+
+    private static final long serialVersionUID = -8318278826285163158L;
     private String name;
 
-    public Customer(String name) {
-        super();
-        this.name = name;
-    }
-
-    public Customer() {
-        super();
-    }
-    
-    
 }

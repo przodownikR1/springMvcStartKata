@@ -1,4 +1,3 @@
-
 package pl.java.borowiec.exception;
 
 import javax.persistence.Column;
@@ -6,62 +5,48 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
- * @author Sławomir Borowiec 
- * Module name : personalBlogEntity
- * Creating time :  11-04-2013 00:01:17
- 
+ * @author Sławomir Borowiec
+ *         Module name : personalBlogEntity
+ *         Creating time : 11-04-2013 00:01:17
  */
 @Entity
 @XmlRootElement
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class UnExpectedException extends ExceptionHandling {
-	private static final long serialVersionUID = 8284569238600218725L;
-	protected static final String TABLE_NAME = "UNEXPECTED_EXCEPTION";
+    public UnExpectedException(String string, String msg, String description, String moduleName, String logPrefix, String formOrModuleName2) {
+        setErrorNumber(string);
+        setException(msg);
+        setDescription(description);
+        setFunctionName(moduleName);
+        setMessage(logPrefix);
+        setFormOrModuleName(formOrModuleName2);
+    }
 
+    private static final long serialVersionUID = 8284569238600218725L;
+    protected static final String TABLE_NAME = "UNEXPECTED_EXCEPTION";
 
-	@NotNull
-	@Column(name = "ERROR_NUMBER", nullable = false, length = 128)
-	private String errorNumber;
+    @NotNull
+    @Column(name = "error_number", nullable = false, length = 128)
+    private String errorNumber;
 
+    @NotNull
+    @Column(name = "function_name", nullable = false, length = 128)
+    private String functionName;
 
-	@NotNull
-	@Column(name = "FUNCTION_NAME", nullable = false, length = 128)
-	private String functionName;
-	public static final String FUNCTION_NAME_FIELD_NAME = "functionName";
+    @NotNull
+    @Column(name = "module_name", nullable = false, length = 128)
+    private String formOrModuleName;
 
+    @Column(name = "arguments", length = 256)
+    private String arguments;
 
-	@NotNull
-	@Column(name = "FORM_OR_MODULE_NAME", nullable = false, length = 128)
-	private String formOrModuleName;
-	public static final String FORM_OR_MODULE_NAME_FIELD_NAME = "formOrModuleName";
-
-
-	@Column(name = "ARGUMENTS", length = 256)
-	private String arguments;
-	public static final String ARGUMENTS_FIELD_NAME = "arguments";
-
-	public UnExpectedException(String exception, String message, String description, String errorNumber, String functionName,
-			String formOrModuleName) {
-		super(exception, message, description);
-		this.errorNumber = errorNumber;
-		this.functionName = functionName;
-		this.formOrModuleName = formOrModuleName;
-	}
-
-	public UnExpectedException() {
-		super();
-	}
-
-	public UnExpectedException(String exception, String message, String description) {
-		super(exception, message, description);
-	}
-
-	
 }

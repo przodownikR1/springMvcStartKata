@@ -1,33 +1,42 @@
 package pl.java.borowiec.common;
 
-import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-/**
- * @author Sławomir Borowiec
- *         Module name : personalBlogEntity
- *         Creating time : 10-03-2013 23:24:59
- */
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @MappedSuperclass
-public abstract class PKEntity implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7669211182758111346L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Long id;
+@Data
+@EqualsAndHashCode(callSuper=false)
+public abstract class PKEntity extends AbstactId {
 
-	public Long getId() {
-		return id;
-	}
+    private static final long serialVersionUID = 7669211182758111346L;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_modification")
+    @Basic(fetch = FetchType.LAZY)
+    protected Date dateModification;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_added", nullable = false)
+    @Basic(fetch = FetchType.LAZY)
+    protected Date dateAdded = new Date();
+
+
+    @PreUpdate
+    private void initPreUpdate() {
+        dateModification = new Date();
+        if (dateAdded == null) {
+            dateAdded = dateModification;
+        }
+    }
 }
