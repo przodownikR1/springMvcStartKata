@@ -3,6 +3,7 @@ package pl.java.borowiec.jdbc.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -48,8 +49,9 @@ public class TagJdbcRepositoryImpl implements TagJdbcRepository {
                         Tag tag = new Tag();
                         tag.setId(rs.getLong("id"));
                         tag.setName(rs.getString("name"));
-                        tag.setDateAdded(rs.getDate("date_added"));
-                        tag.setDateModification(rs.getDate("date_modyfication"));
+                        
+                        tag.setDateAdded(rs.getDate("date_added").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                        tag.setDateModification(rs.getDate("date_modyfication").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                         return tag;
                     }
                 }, name);
@@ -66,8 +68,8 @@ public class TagJdbcRepositoryImpl implements TagJdbcRepository {
                         Tag tag = new Tag();
                         tag.setId(rs.getLong("id"));
                         tag.setName(rs.getString("name"));
-                        tag.setDateAdded(rs.getDate("date_added"));
-                        tag.setDateModification(rs.getDate("date_modyfication"));
+                        tag.setDateAdded(rs.getDate("date_added").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                        tag.setDateModification(rs.getDate("date_modyfication").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                         return tag;
                     }
                 }, id);
@@ -113,8 +115,8 @@ public class TagJdbcRepositoryImpl implements TagJdbcRepository {
                 Tag tag = new Tag();
                 tag.setId(rs.getLong("id"));
                 tag.setName(rs.getString("name"));
-                tag.setDateAdded(rs.getDate("date_added"));
-                tag.setDateModification(rs.getDate("date_modyfication"));
+                tag.setDateAdded(rs.getDate("date_added").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                tag.setDateModification(rs.getDate("date_modyfication").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 return tag;
             }
         });

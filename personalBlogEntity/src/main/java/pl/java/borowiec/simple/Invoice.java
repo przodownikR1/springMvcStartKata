@@ -85,13 +85,13 @@ public class Invoice extends AbstactId {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Product> products = new ArrayList<>();
 
-    @Past
+  //  @Past
     @XmlElement(name = "create_date", required = true)
     @XmlJavaTypeAdapter( LocalDateAdapter.class )
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creataDate;
 
-    @Future
+   // @Future
     @XmlElement(name = "pay_date", required = true)
     @XmlJavaTypeAdapter( LocalDateAdapter.class )
     @DateTimeFormat(pattern = "yyyy-MM-dd")

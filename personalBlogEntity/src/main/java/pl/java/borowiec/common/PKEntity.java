@@ -21,13 +21,13 @@ public abstract class PKEntity extends AbstactId {
 
     private static final long serialVersionUID = 7669211182758111346L;
 
-    @Temporal(TemporalType.TIMESTAMP)
+   
     @Column(name = "date_modification")
     @Basic(fetch = FetchType.LAZY)
     @XmlTransient
     protected LocalDate dateModification;
 
-    @Temporal(TemporalType.TIMESTAMP)
+   
     @Column(name = "date_added", nullable = false)
     @Basic(fetch = FetchType.LAZY)
     @XmlTransient

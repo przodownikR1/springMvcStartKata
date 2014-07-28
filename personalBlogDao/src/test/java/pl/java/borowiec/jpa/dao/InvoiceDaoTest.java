@@ -3,6 +3,7 @@ package pl.java.borowiec.jpa.dao;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,12 +59,12 @@ public class InvoiceDaoTest {
         invoice.setAmount(new BigDecimal("99"));
 
         try {
-            invoice.setCreataDate(sdf.parse("1999-10-01"));
+            invoice.setCreataDate(sdf.parse("1999-10-01").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         } catch (ParseException e) {
         }
 
         try {
-            invoice.setPayDate(sdf.parse("2014-08-01"));
+            invoice.setPayDate(sdf.parse("2014-08-01").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         } catch (ParseException e) {
         }
 

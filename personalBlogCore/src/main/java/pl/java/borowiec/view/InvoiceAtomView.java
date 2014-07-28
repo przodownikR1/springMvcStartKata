@@ -1,5 +1,7 @@
 package pl.java.borowiec.view;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,8 +33,8 @@ public class InvoiceAtomView extends AbstractAtomFeedView {
         List<Invoice> invoices = (List<Invoice>) model.get("invoices");
 		for (Invoice invoice : invoices) {
 			LocalDate date = invoice.getCreataDate();
-			if (feed.getUpdated() == null || date.compareTo(feed.getUpdated()) > 0) {
-				feed.setUpdated(date);
+			if (feed.getUpdated() == null || date.compareTo(feed.getUpdated().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) > 0) {
+				feed.setUpdated(new Date(date.toEpochDay()));
 			}
 		}
 
@@ -49,7 +51,7 @@ public class InvoiceAtomView extends AbstractAtomFeedView {
 			String date = String.format("%1$tY-%1$tm-%1$td", invoice.getCreataDate());
 			entry.setId(String.format("tag:invoice.id,%s:%d", date, invoice.getId()));
 			entry.setTitle(String.format("Incoice name %s", invoice.getName()));
-			entry.setUpdated(invoice.getPayDate());
+			entry.setUpdated(new Date(invoice.getPayDate().toEpochDay()));
 			Content summary = new Content();
 			summary.setValue(String.format("%s - %s", "summary", "value"));
 			entry.setSummary(summary);
