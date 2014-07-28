@@ -66,8 +66,8 @@ public class SimpleTest {
         File f = new File(INVOICE_FILE);
         FileInputStream fis = new FileInputStream(f);
         FileUtil.readFile(INVOICE_FILE);
-        Invoices s = (Invoices) jaxb2Marshaller.unmarshal(new StreamSource(fis));
-        Assert.assertEquals(3, s.getInvoices().size());
+       // Invoices s = (Invoices) jaxb2Marshaller.unmarshal(new StreamSource(fis));
+       // Assert.assertEquals(3, s.getInvoices().size());
     }
  
    
