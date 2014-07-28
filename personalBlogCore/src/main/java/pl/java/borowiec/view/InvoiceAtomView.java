@@ -30,7 +30,7 @@ public class InvoiceAtomView extends AbstractAtomFeedView {
 		@SuppressWarnings("unchecked")
         List<Invoice> invoices = (List<Invoice>) model.get("invoices");
 		for (Invoice invoice : invoices) {
-			Date date = invoice.getCreataDate();
+			LocalDate date = invoice.getCreataDate();
 			if (feed.getUpdated() == null || date.compareTo(feed.getUpdated()) > 0) {
 				feed.setUpdated(date);
 			}

@@ -3,6 +3,7 @@ package pl.java.borowiec.dao;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,8 +39,6 @@ public class InvoiceDaoTest {
 
     private Customer customer;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
     @Before
     public void before() {
         customer = new Customer("slawek");
@@ -47,15 +46,9 @@ public class InvoiceDaoTest {
         invoice.setCustomer(customer);
         invoice.setAmount(new BigDecimal("99"));
 
-        try {
-            invoice.setCreataDate(sdf.parse("1999-10-01"));
-        } catch (ParseException e) {
-        }
+        invoice.setCreataDate(LocalDate.parse("1999-10-01"));
 
-        try {
-            invoice.setPayDate(sdf.parse("2014-08-01"));
-        } catch (ParseException e) {
-        }
+        invoice.setPayDate(LocalDate.parse("2014-08-01"));
 
         invoice.setDescription("description.....");
         invoice.setPaid(true);

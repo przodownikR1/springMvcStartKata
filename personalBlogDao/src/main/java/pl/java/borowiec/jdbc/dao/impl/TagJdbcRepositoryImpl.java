@@ -2,6 +2,7 @@ package pl.java.borowiec.jdbc.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.sql.DataSource;
