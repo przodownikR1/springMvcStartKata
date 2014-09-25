@@ -31,7 +31,7 @@ public class InvoiceRssView extends AbstractRssFeedView {
         @SuppressWarnings("unchecked")
         List<Invoice> invoices = (List<Invoice>) model.get("invoices");
         for (Invoice invoice : invoices) {
-            Date date = invoice.getCreataDate();
+            Date date = new Date(invoice.getCreataDate().toEpochDay());
             if (feed.getLastBuildDate() == null || date.compareTo(feed.getLastBuildDate()) > 0) {
                 feed.setLastBuildDate(date);
             }
@@ -48,7 +48,7 @@ public class InvoiceRssView extends AbstractRssFeedView {
             Item item = new Item();
             //item.setLink(link);
             item.setTitle(String.format("Blog name %s", invoice.getName()));
-            item.setPubDate(invoice.getCreataDate());
+            item.setPubDate(new Date(invoice.getCreataDate().toEpochDay()));
            
             items.add(item);
         }

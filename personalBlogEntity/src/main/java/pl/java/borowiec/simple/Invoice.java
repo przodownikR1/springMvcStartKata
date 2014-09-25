@@ -1,6 +1,9 @@
 package pl.java.borowiec.simple;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,13 +34,19 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import pl.java.borowiec.common.AbstactId;
+import pl.java.borowiec.hibernate.LocalDateTimeUserType;
+import pl.java.borowiec.hibernate.LocalDateUserType;
+import pl.java.borowiec.hibernate.LocalTimeUserType;
 import pl.java.borowiec.product.Product;
 import pl.java.borowiec.xml.DateAdapter;
+import pl.java.borowiec.xml.LocalDateAdapter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -46,6 +55,18 @@ import pl.java.borowiec.xml.DateAdapter;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NamedQueries({ @NamedQuery(name = "Invoice.findByUser", query = "FROM Invoice inv WHERE inv.user = :user ") })
+
+@TypeDefs({
+    @TypeDef(name = "localDateType",
+            defaultForType = LocalDate.class,
+            typeClass = LocalDateUserType.class),
+    @TypeDef(name = "localDateTimeType",
+            defaultForType = LocalDateTime.class,
+            typeClass = LocalDateTimeUserType.class),
+    @TypeDef(name = "localTimeType",
+            defaultForType = LocalTime.class,
+            typeClass = LocalTimeUserType.class)
+})
 public class Invoice extends AbstactId {
 
     private static final long serialVersionUID = -7305875286472112192L;
@@ -53,9 +74,8 @@ public class Invoice extends AbstactId {
     @XmlElement(name = "invoice_name", required = true)
     @Column(name = "invoice_name", nullable = false)
     private String name;
-    
-    
-    @XmlAttribute( name = "paid" )
+
+    @XmlAttribute(name = "paid")
     private boolean paid;
 
     @XmlElementWrapper(name = "products")
@@ -63,17 +83,25 @@ public class Invoice extends AbstactId {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Product> products = new ArrayList<>();
 
+<<<<<<< HEAD
     // @Past
+=======
+  //  @Past
+>>>>>>> bbd89445407e13171c8dc5ecb7e9e006a4df81e9
     @XmlElement(name = "create_date", required = true)
-    @XmlJavaTypeAdapter(DateAdapter.class)
+    @XmlJavaTypeAdapter( LocalDateAdapter.class )
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date creataDate;
+    private LocalDate creataDate;
 
+<<<<<<< HEAD
     // @Future
+=======
+   // @Future
+>>>>>>> bbd89445407e13171c8dc5ecb7e9e006a4df81e9
     @XmlElement(name = "pay_date", required = true)
-    @XmlJavaTypeAdapter(DateAdapter.class)
+    @XmlJavaTypeAdapter( LocalDateAdapter.class )
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date payDate;
+    private LocalDate payDate;
 
     @Size(min = 3, max = 20)
     private String user;
@@ -88,7 +116,7 @@ public class Invoice extends AbstactId {
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @XmlAttribute( name = "type" )
+    @XmlAttribute(name = "type")
     @Column(name = "invoice_type")
     private InvoiceType type;
 
