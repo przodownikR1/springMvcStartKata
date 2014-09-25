@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -45,7 +44,6 @@ import pl.java.borowiec.hibernate.LocalDateTimeUserType;
 import pl.java.borowiec.hibernate.LocalDateUserType;
 import pl.java.borowiec.hibernate.LocalTimeUserType;
 import pl.java.borowiec.product.Product;
-import pl.java.borowiec.xml.DateAdapter;
 import pl.java.borowiec.xml.LocalDateAdapter;
 
 @XmlRootElement
@@ -83,21 +81,15 @@ public class Invoice extends AbstactId {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Product> products = new ArrayList<>();
 
-<<<<<<< HEAD
-    // @Past
-=======
+
   //  @Past
->>>>>>> bbd89445407e13171c8dc5ecb7e9e006a4df81e9
     @XmlElement(name = "create_date", required = true)
     @XmlJavaTypeAdapter( LocalDateAdapter.class )
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creataDate;
 
-<<<<<<< HEAD
-    // @Future
-=======
+
    // @Future
->>>>>>> bbd89445407e13171c8dc5ecb7e9e006a4df81e9
     @XmlElement(name = "pay_date", required = true)
     @XmlJavaTypeAdapter( LocalDateAdapter.class )
     @DateTimeFormat(pattern = "yyyy-MM-dd")
