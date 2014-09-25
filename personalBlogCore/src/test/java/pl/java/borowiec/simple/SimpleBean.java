@@ -1,16 +1,17 @@
 package pl.java.borowiec.simple;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @Scope(value="singleton")
 @XmlRootElement
+@Slf4j
 public class SimpleBean {
     @Value("#{ systemProperties['user.home'] }") 
     private String userHome ;
@@ -23,7 +24,7 @@ public class SimpleBean {
     
    // @Scheduled(fixedRate=2000)
     public void showTest(){
-        System.err.println("Hello task");
+        log.info("::::    Hello task");
     }
     
     public String getName() {

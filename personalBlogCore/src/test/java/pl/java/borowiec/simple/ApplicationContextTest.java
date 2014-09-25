@@ -16,6 +16,8 @@ public class ApplicationContextTest {
 		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 		String str = context.getBean("str", String.class);
 		Assert.assertEquals("slawek", str);
+		((ClassPathXmlApplicationContext) context).close(); 
+		
 	}
 
 }

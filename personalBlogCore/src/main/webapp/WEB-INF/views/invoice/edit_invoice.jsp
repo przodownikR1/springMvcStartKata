@@ -29,9 +29,9 @@
 				</p>
 	
 				<p>
-					<form:label for="payed" path="payed">Payed</form:label><br/>
-					<form:checkbox path="payed" value="payed" />
-					<form:errors path="payed" cssClass="errorMessage"/>
+					<form:label for="paid" path="paid">Paid</form:label><br/>
+					<form:checkbox path="paid" value="paid" />
+					<form:errors path="paid" cssClass="errorMessage"/>
 				</p>
 				
 				<p>

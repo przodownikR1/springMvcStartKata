@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import pl.java.borowiec.annotation.CatchException;
 import pl.java.borowiec.dao.invoice.InvoiceDao;
 import pl.java.borowiec.service.invoce.InvoiceService;
 import pl.java.borowiec.simple.Invoice;
-import pl.java.borowiec.annotation.CatchException;
 
 @Service  //to metody biznesowy i transakcyjnosc = skupia dao do siebie tak aby zapewnic transakcje
 @Transactional(readOnly = true)
@@ -37,8 +37,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     @CatchException
     public List<Invoice> getList() {
-       throw new IllegalArgumentException("abc test");
-       //return invoiceDao.findAll();
+        // throw new IllegalArgumentException("abc test");
+        return invoiceDao.findAll();
     }
 
     @Override

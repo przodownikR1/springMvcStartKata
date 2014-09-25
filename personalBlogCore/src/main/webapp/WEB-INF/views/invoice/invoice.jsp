@@ -31,7 +31,7 @@
 		  
 			<td><c:out value="${invoice.id}" /></td>
 			<td><c:out value="${invoice.name}" /></td>
-			<td><c:out value="${invoice.payed}" /></td>
+			<td><c:out value="${invoice.paid}" /></td>
 			<td>
 		      	 <c:out value="${invoice.creataDate}" />
 			<%-- <fmt:formatDate value="${invoice.creataDate}" pattern="yyyy-MM-dd HH:mm" /> --%>
