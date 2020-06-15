@@ -42,7 +42,7 @@
 
 		<commons-dbcp.version>20030825.184428</commons-dbcp.version>
 		<common-pool.version>20030825.183949</common-pool.version>
-		<common-collections.version>3.2.1</common-collections.version>
+		<common-collections.version>3.2.2</common-collections.version>
 		<mail.version>1.4.1</mail.version>
 		<commons-io.version>2.4</commons-io.version>
 		<rome.version>1.0</rome.version>
