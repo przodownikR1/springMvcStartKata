@@ -31,7 +31,7 @@
 		<!-- hibernate -->
 		<javax.validation.version>1.0.0.GA</javax.validation.version>
 		
-		<hibernate.validator.version>4.3.0.Final</hibernate.validator.version> <!--5.0.1.Final--> <!--4.2.0.Final-->
+		<hibernate.validator.version>5.3.5.Final</hibernate.validator.version> <!--5.0.1.Final--> <!--4.2.0.Final-->
 		<javax.validation.version>1.0.0.GA</javax.validation.version>
 		<jpa2.version>1.0.1.Final</jpa2.version>
 		<hibernate.jpa.modeler>1.2.0.Final</hibernate.jpa.modeler>
