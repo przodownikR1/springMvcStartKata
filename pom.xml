@@ -78,7 +78,7 @@
 
 		<tiles.version>2.2.2</tiles.version>
 		<thymeleaf.version>2.0.16</thymeleaf.version>
-		<poi.version>3.7</poi.version>
+		<poi.version>4.1.1</poi.version>
 
 		<maven.ant.plugin>1.7</maven.ant.plugin>
 		<maven.aspectj.plugin>1.4</maven.aspectj.plugin>
